@@ -11,7 +11,7 @@ public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Enumerated(EnumType.STRING)
+
     private SubscriptionType subscriptionType;
 
     private int noOfScreensSubscribed;

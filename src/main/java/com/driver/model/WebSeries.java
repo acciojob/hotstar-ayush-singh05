@@ -17,7 +17,7 @@ public class WebSeries {
     private int ageLimit;
 
     private double rating;
-    @Enumerated(EnumType.STRING)
+   
     private SubscriptionType subscriptionType; //This denotes with which of subscriptionType this webseries comes ie. BASIC,PRO, ELITE
 
     @ManyToOne
