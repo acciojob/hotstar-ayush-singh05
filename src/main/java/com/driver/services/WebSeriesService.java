@@ -5,12 +5,18 @@ import com.driver.model.ProductionHouse;
 import com.driver.model.WebSeries;
 import com.driver.repository.ProductionHouseRepository;
 import com.driver.repository.WebSeriesRepository;
+
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 @Service
 public class WebSeriesService {
-
+    Logger logger =  LoggerFactory.getLogger(WebSeriesService.class);
     @Autowired
     WebSeriesRepository webSeriesRepository;
 
@@ -23,8 +29,30 @@ public class WebSeriesService {
         //Incase the seriesName is already present in the Db throw Exception("Series is already present")
         //use function written in Repository Layer for the same
         //Dont forget to save the production and webseries Repo
+        WebSeries series1 = webSeriesRepository.findBySeriesName(webSeriesEntryDto.getSeriesName());
+        if(series1 != null) {
+            throw new Exception("Series is already present");
+        }
+        WebSeries series = new WebSeries();
+        series.setSeriesName(webSeriesEntryDto.getSeriesName());
+        series.setAgeLimit(webSeriesEntryDto.getAgeLimit());
+        series.setRating(webSeriesEntryDto.getRating());
+        series.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
 
-        return null;
+        ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
+        productionHouse.getWebSeriesList().add(series);
+
+        List<WebSeries> list = productionHouse.getWebSeriesList();
+
+        double rating = 0;
+        for(WebSeries sec : list) {
+            rating += sec.getRating();
+        }
+
+        productionHouse.setRatings(rating/productionHouse.getWebSeriesList().size());
+        series.setProductionHouse(productionHouse);
+        ProductionHouse save = productionHouseRepository.save(productionHouse);
+        return save.getId();
     }
 
 }

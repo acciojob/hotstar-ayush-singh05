@@ -6,6 +6,7 @@ import com.driver.model.WebSeries;
 import com.driver.services.WebSeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebseriesController {
 
     @Autowired
-    WebSeriesService webSeriesService;
+    WebSeriesService webSeriesService = new WebSeriesService();
 
     @PostMapping("/add")
-    public int addWebSeries(WebSeriesEntryDto webSeriesEntryDto){
+    public int addWebSeries(@RequestBody WebSeriesEntryDto webSeriesEntryDto){
 
         try{
             return webSeriesService.addWebSeries(webSeriesEntryDto);
