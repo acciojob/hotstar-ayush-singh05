@@ -6,19 +6,17 @@ import com.driver.model.WebSeries;
 import com.driver.repository.ProductionHouseRepository;
 import com.driver.repository.WebSeriesRepository;
 
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Supplier;
+
 
 @Service
 public class WebSeriesService {
-    Logger logger =  LoggerFactory.getLogger(WebSeriesService.class);
+
     @Autowired
-    WebSeriesRepository webSeriesRepository;
+    WebSeriesRepository webSeriesRepository ;
 
     @Autowired
     ProductionHouseRepository productionHouseRepository;

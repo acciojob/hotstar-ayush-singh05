@@ -51,9 +51,11 @@ public class SubscriptionService {
         int noOfScreen = user.getSubscription().getTotalAmountPaid();
         int elite = 1000 + 350 * user.getSubscription().getNoOfScreensSubscribed();
         subscription.setSubscriptionType(SubscriptionType.ELITE);
+        subscription.setTotalAmountPaid(elite);
         user.setSubscription(subscription);
         userRepository.save(user);
-        return elite - noOfScreen;
+        int totalPayable = elite - noOfScreen;
+        return totalPayable;
     }
 
     public Integer calculateTotalRevenueOfHotstar(){
