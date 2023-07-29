@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 public class SubscriptionController {
 
     @Autowired
-    SubscriptionService subscriptionService = new SubscriptionService();
+    SubscriptionService subscriptionService;
 
     @PostMapping("/buy")
-    public Integer buySubscription(@RequestBody SubscriptionEntryDto subscriptionEntryDto){
+    public Integer buySubscription(SubscriptionEntryDto subscriptionEntryDto){
 
         //We need to buy subscription and save its relevant subscription to the db and return the finalAmount
 
