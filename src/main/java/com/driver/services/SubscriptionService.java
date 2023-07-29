@@ -34,8 +34,8 @@ public class SubscriptionService {
         subscription.setNoOfScreensSubscribed(subscriptionEntryDto.getNoOfScreensRequired());
         subscription.setUser(user);
         user.setSubscription(subscription);
-       User save = userRepository.save(user);
-        return save.getId();
+         User save = userRepository.save(user);
+        return save.getSubscription().getTotalAmountPaid();
     }
 
     public Integer upgradeSubscription(Integer userId)throws Exception{
@@ -48,14 +48,24 @@ public class SubscriptionService {
             throw new Exception("Already the best Subscription");
         }
         Subscription subscription = user.getSubscription();
-        int noOfScreen = user.getSubscription().getTotalAmountPaid();
+        int currAmount = user.getSubscription().getTotalAmountPaid();
         int elite = 1000 + 350 * user.getSubscription().getNoOfScreensSubscribed();
-        subscription.setSubscriptionType(SubscriptionType.ELITE);
-        subscription.setTotalAmountPaid(elite);
+        int pro = 800 + 250 * user.getSubscription().getNoOfScreensSubscribed();
+        int totalPayable;
+        if(subscription.getSubscriptionType().equals(SubscriptionType.BASIC)){
+            subscription.setSubscriptionType(SubscriptionType.PRO);
+            subscription.setTotalAmountPaid(pro);
+            totalPayable = pro;
+        }else {
+            subscription.setSubscriptionType(SubscriptionType.ELITE);
+            subscription.setTotalAmountPaid(elite);
+            totalPayable = elite;
+        }
+
         user.setSubscription(subscription);
         userRepository.save(user);
-        int totalPayable = elite - noOfScreen;
-        return totalPayable;
+
+        return totalPayable - currAmount;
     }
 
     public Integer calculateTotalRevenueOfHotstar(){
